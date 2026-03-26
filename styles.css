@@ -1,0 +1,426 @@
+:root {
+    --bg-ink: #070b1a;
+    --bg-ocean: #0d2048;
+    --accent-cyan: #1ac8ff;
+    --accent-red: #ff4d5f;
+    --accent-gold: #ffd166;
+    --text-main: #eef3ff;
+    --text-muted: #9ea8c3;
+    --panel: rgba(10, 20, 46, 0.84);
+    --panel-border: rgba(26, 200, 255, 0.22);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    font-family: "Barlow Condensed", "Trebuchet MS", sans-serif;
+    color: var(--text-main);
+    background:
+        radial-gradient(circle at 15% 20%, rgba(26, 200, 255, 0.16), transparent 35%),
+        radial-gradient(circle at 85% 80%, rgba(255, 77, 95, 0.14), transparent 32%),
+        linear-gradient(140deg, var(--bg-ink), var(--bg-ocean));
+    overflow-x: hidden;
+}
+
+.grid-overlay::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    background-size: 34px 34px;
+    opacity: 0.32;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.screen {
+    width: min(1100px, 92vw);
+    margin: 0 auto;
+    padding: 44px 0 34px;
+}
+
+.brand-title {
+    font-family: "Bebas Neue", "Impact", sans-serif;
+    letter-spacing: 1.4px;
+    font-size: clamp(42px, 7vw, 86px);
+    line-height: 0.92;
+    text-transform: uppercase;
+}
+
+.brand-subtitle {
+    font-size: clamp(20px, 2.8vw, 34px);
+    color: var(--accent-cyan);
+    margin-top: 12px;
+}
+
+.top-note {
+    margin-top: 16px;
+    color: var(--text-muted);
+    font-size: 22px;
+}
+
+.panel {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 18px;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+}
+
+.main-menu-layout {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 24px;
+    align-items: stretch;
+    margin-top: 28px;
+}
+
+.menu-left,
+.menu-right {
+    padding: 28px;
+}
+
+.menu-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+}
+
+button,
+.btn-link {
+    border: 0;
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 28px;
+    font-family: "Bebas Neue", "Impact", sans-serif;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    transition: transform 0.12s ease, filter 0.2s ease;
+    text-transform: uppercase;
+}
+
+button:hover,
+.btn-link:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.07);
+}
+
+button:active,
+.btn-link:active {
+    transform: translateY(0);
+}
+
+.btn-play {
+    background: linear-gradient(120deg, #14d8d3, #0083ff);
+    color: #021028;
+}
+
+.btn-options {
+    background: linear-gradient(120deg, #ffd166, #ff8c42);
+    color: #2a1400;
+}
+
+.btn-quit {
+    background: linear-gradient(120deg, #ff7b86, #e72f4e);
+    color: #21040c;
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: var(--text-main);
+    text-decoration: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.options-box {
+    margin-top: 18px;
+    padding: 18px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(0, 0, 0, 0.28);
+    display: none;
+}
+
+.options-box.open {
+    display: block;
+}
+
+.option-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 23px;
+    margin-bottom: 10px;
+}
+
+.option-row:last-child {
+    margin-bottom: 0;
+}
+
+.option-row input {
+    width: 180px;
+}
+
+.status-message {
+    margin-top: 12px;
+    min-height: 26px;
+    color: var(--accent-gold);
+    font-size: 22px;
+}
+
+.select-grid {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.select-panel {
+    padding: 20px;
+}
+
+.select-panel h2 {
+    font-family: "Bebas Neue", "Impact", sans-serif;
+    font-size: 38px;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+}
+
+.char-card-wrap {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.char-card {
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    background: rgba(0, 0, 0, 0.24);
+    padding: 14px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, transform 0.12s ease;
+}
+
+.char-card h3 {
+    font-size: 30px;
+    font-family: "Bebas Neue", "Impact", sans-serif;
+    letter-spacing: 0.5px;
+}
+
+.char-card p {
+    margin-top: 8px;
+    font-size: 22px;
+    color: var(--text-muted);
+}
+
+.char-card.active {
+    border-color: var(--accent-cyan);
+    outline: 2px solid rgba(26, 200, 255, 0.42);
+    transform: translateY(-2px);
+}
+
+.skills-list {
+    margin-top: 10px;
+    font-size: 20px;
+    line-height: 1.2;
+}
+
+.bottom-actions {
+    margin-top: 22px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.map-card {
+    margin-top: 22px;
+    padding: 22px;
+}
+
+.map-grid {
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.map-card {
+    margin-top: 0;
+    cursor: pointer;
+    transition: transform 0.12s ease, border-color 0.2s ease;
+}
+
+.map-card.active {
+    border-color: var(--accent-cyan);
+    outline: 2px solid rgba(26, 200, 255, 0.36);
+    transform: translateY(-2px);
+}
+
+.blank-preview {
+    margin-top: 16px;
+    border: 2px dashed rgba(255, 255, 255, 0.35);
+    border-radius: 12px;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+    height: 220px;
+    display: grid;
+    place-items: center;
+    color: var(--text-muted);
+    font-size: 30px;
+    text-transform: uppercase;
+}
+
+.game-shell {
+    padding: 16px;
+    width: min(1160px, 96vw);
+    margin: 8px auto;
+}
+
+.game-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.game-head h1 {
+    font-family: "Bebas Neue", "Impact", sans-serif;
+    letter-spacing: 0.8px;
+    font-size: 48px;
+}
+
+.game-controls {
+    font-size: 18px;
+    color: var(--text-muted);
+}
+
+.canvas-wrap {
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.44);
+}
+
+#gameCanvas {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #0d1631;
+}
+
+.hud-help {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.hud-help .panel {
+    padding: 10px 12px;
+    font-size: 19px;
+}
+
+.shop-panel {
+    margin-top: 10px;
+    padding: 12px;
+}
+
+.shop-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.shop-title-row h2 {
+    font-family: "Bebas Neue", "Impact", sans-serif;
+    font-size: 34px;
+}
+
+.shop-title-row div {
+    color: var(--accent-gold);
+    font-size: 22px;
+}
+
+.shop-status {
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: 20px;
+}
+
+.shop-grid {
+    margin-top: 8px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.shop-hint {
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-size: 18px;
+}
+
+.match-overlay {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(620px, 92vw);
+    padding: 24px;
+    z-index: 20;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.match-overlay h2 {
+    font-family: "Bebas Neue", "Impact", sans-serif;
+    font-size: 52px;
+    letter-spacing: 1px;
+}
+
+.match-overlay p {
+    margin-top: 8px;
+    font-size: 24px;
+    color: var(--text-muted);
+}
+
+.blink {
+    animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+}
+
+@media (max-width: 920px) {
+    .main-menu-layout,
+    .select-grid,
+    .hud-help,
+    .map-grid,
+    .shop-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .game-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    button,
+    .btn-link {
+        font-size: 24px;
+    }
+}

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battle Kaisen - Main Menu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="grid-overlay">
+    <main class="screen">
+        <section class="panel menu-left">
+            <h1 class="brand-title">Battle Kaisen</h1>
+            <p class="brand-subtitle">Jujutsu Kaisen 2D Fighter Prototype</p>
+            <p class="top-note">Local multiplayer now. Online multiplayer layer comes next.</p>
+        </section>
+
+        <section class="main-menu-layout">
+            <div class="panel menu-right">
+                <button id="playBtn" class="btn-play">Play</button>
+                <button id="optionsBtn" class="btn-options">Options</button>
+                <button id="quitBtn" class="btn-quit">Quit</button>
+                <a class="btn-link btn-secondary" href="game.html">Quick Test Arena</a>
+            </div>
+
+            <div class="panel menu-left">
+                <h2 style="font-family: 'Bebas Neue', Impact, sans-serif; font-size: 40px;">System Notes</h2>
+                <p style="font-size: 24px; margin-top: 8px; color: var(--text-muted);">
+                    Includes stamina and cursed energy. Each fighter has 3 core skills + 1 domain expansion ultimate.
+                </p>
+                <div id="optionsBox" class="options-box">
+                    <div class="option-row">
+                        <label for="matchMode">Mode</label>
+                        <select id="matchMode" style="width: 180px; font-size: 20px;">
+                            <option value="same-device">Same Device</option>
+                            <option value="computer">Computer</option>
+                            <option value="multiplayer">Multiplayer</option>
+                        </select>
+                    </div>
+                    <div class="option-row">
+                        <label for="cpuDifficulty">CPU Difficulty</label>
+                        <select id="cpuDifficulty" style="width: 180px; font-size: 20px;">
+                            <option value="easy">Easy</option>
+                            <option value="normal">Normal</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                    <div class="option-row">
+                        <label for="wsUrl">WebSocket URL</label>
+                        <input id="wsUrl" type="text" placeholder="wss://your-server.example/ws" style="width: 260px; font-size: 18px;">
+                    </div>
+                    <div class="option-row">
+                        <label for="musicVolume">Music Volume</label>
+                        <input id="musicVolume" type="range" min="0" max="100" value="70">
+                    </div>
+                    <div class="option-row">
+                        <label for="sfxVolume">SFX Volume</label>
+                        <input id="sfxVolume" type="range" min="0" max="100" value="80">
+                    </div>
+                    <div class="option-row">
+                        <label for="screenShake">Screen Shake</label>
+                        <input id="screenShake" type="checkbox" checked>
+                    </div>
+                </div>
+                <p id="statusMsg" class="status-message"></p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const optionsBox = document.getElementById('optionsBox');
+        const optionsBtn = document.getElementById('optionsBtn');
+        const playBtn = document.getElementById('playBtn');
+        const quitBtn = document.getElementById('quitBtn');
+        const statusMsg = document.getElementById('statusMsg');
+
+        const musicVolume = document.getElementById('musicVolume');
+        const sfxVolume = document.getElementById('sfxVolume');
+        const screenShake = document.getElementById('screenShake');
+        const matchMode = document.getElementById('matchMode');
+        const cpuDifficulty = document.getElementById('cpuDifficulty');
+        const wsUrl = document.getElementById('wsUrl');
+
+        const SETTINGS_KEY = 'battleKaisen.settings';
+
+        function loadSettings() {
+            const saved = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
+            musicVolume.value = Number.isFinite(saved.musicVolume) ? saved.musicVolume : 70;
+            sfxVolume.value = Number.isFinite(saved.sfxVolume) ? saved.sfxVolume : 80;
+            screenShake.checked = saved.screenShake !== false;
+            matchMode.value = saved.matchMode || 'same-device';
+            cpuDifficulty.value = saved.cpuDifficulty || 'normal';
+            wsUrl.value = saved.wsUrl || '';
+        }
+
+        function saveSettings() {
+            const payload = {
+                musicVolume: Number(musicVolume.value),
+                sfxVolume: Number(sfxVolume.value),
+                screenShake: !!screenShake.checked,
+                matchMode: matchMode.value || 'same-device',
+                cpuDifficulty: cpuDifficulty.value || 'normal',
+                wsUrl: (wsUrl.value || '').trim()
+            };
+            localStorage.setItem(SETTINGS_KEY, JSON.stringify(payload));
+            statusMsg.textContent = 'Options saved.';
+            setTimeout(() => {
+                statusMsg.textContent = '';
+            }, 1400);
+        }
+
+        optionsBtn.addEventListener('click', () => {
+            optionsBox.classList.toggle('open');
+        });
+
+        playBtn.addEventListener('click', () => {
+            saveSettings();
+            window.location.href = 'character-select.html';
+        });
+
+        quitBtn.addEventListener('click', () => {
+            statusMsg.textContent = 'Quit is limited in browser mode. Close this tab to exit.';
+            statusMsg.classList.add('blink');
+            setTimeout(() => statusMsg.classList.remove('blink'), 1800);
+        });
+
+        musicVolume.addEventListener('input', saveSettings);
+        sfxVolume.addEventListener('input', saveSettings);
+        screenShake.addEventListener('change', saveSettings);
+        matchMode.addEventListener('change', saveSettings);
+        cpuDifficulty.addEventListener('change', saveSettings);
+        wsUrl.addEventListener('change', saveSettings);
+
+        loadSettings();
+    </script>
+</body>
+</html>

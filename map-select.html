@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battle Kaisen - Map Select</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="grid-overlay">
+    <main class="screen">
+        <h1 class="brand-title">Map Select</h1>
+        <p class="brand-subtitle">Choose your battlefield</p>
+
+        <section class="map-grid" id="mapGrid">
+            <article class="panel map-card active" data-map="blank">
+                <h2 style="font-family: 'Bebas Neue', Impact, sans-serif; font-size: 40px;">Blank Arena</h2>
+                <p style="font-size: 23px; color: var(--text-muted); margin-top: 6px;">
+                    Clean test space to tune movement, skills, stamina, and cursed energy.
+                </p>
+                <div class="blank-preview">Blank</div>
+            </article>
+            <article class="panel map-card" data-map="city">
+                <h2 style="font-family: 'Bebas Neue', Impact, sans-serif; font-size: 40px;">City Map</h2>
+                <p style="font-size: 23px; color: var(--text-muted); margin-top: 6px;">
+                    Neon skyline and urban lights for high-speed close combat.
+                </p>
+                <div class="blank-preview">City</div>
+            </article>
+            <article class="panel map-card" data-map="field">
+                <h2 style="font-family: 'Bebas Neue', Impact, sans-serif; font-size: 40px;">Flower Field</h2>
+                <p style="font-size: 23px; color: var(--text-muted); margin-top: 6px;">
+                    Open field with flowers and plants to contrast heavy VFX combat.
+                </p>
+                <div class="blank-preview">Field</div>
+            </article>
+            <article class="panel map-card" data-map="space">
+                <h2 style="font-family: 'Bebas Neue', Impact, sans-serif; font-size: 40px;">Space Map</h2>
+                <p style="font-size: 23px; color: var(--text-muted); margin-top: 6px;">
+                    Cosmic void with stars and nebula fog for domain-like duels.
+                </p>
+                <div class="blank-preview">Space</div>
+            </article>
+        </section>
+
+        <div class="bottom-actions">
+            <a class="btn-link btn-secondary" href="character-select.html">Back</a>
+            <button id="startBtn" class="btn-play">Start Battle</button>
+        </div>
+    </main>
+
+    <script>
+        const mapGrid = document.getElementById('mapGrid');
+        const mapCards = Array.from(document.querySelectorAll('.map-card'));
+        let selectedMap = 'blank';
+
+        mapGrid.addEventListener('click', (event) => {
+            const card = event.target.closest('.map-card');
+            if (!card) return;
+            selectedMap = card.dataset.map || 'blank';
+            mapCards.forEach((entry) => entry.classList.toggle('active', entry === card));
+        });
+
+        document.getElementById('startBtn').addEventListener('click', () => {
+            const saved = JSON.parse(localStorage.getItem('battleKaisen.selection') || '{}');
+            saved.map = selectedMap;
+            if (!saved.p1) saved.p1 = 'gojo';
+            if (!saved.p2) saved.p2 = 'sukuna';
+            localStorage.setItem('battleKaisen.selection', JSON.stringify(saved));
+            window.location.href = 'game.html';
+        });
+    </script>
+</body>
+</html>

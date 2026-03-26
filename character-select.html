@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battle Kaisen - Character Select</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="grid-overlay">
+    <main class="screen">
+        <h1 class="brand-title">Character Select</h1>
+        <p class="brand-subtitle">Gojo and Sukuna only for now</p>
+
+        <section class="select-grid">
+            <article class="panel select-panel">
+                <h2>Player 1</h2>
+                <div class="char-card-wrap">
+                    <button class="char-card active" data-slot="p1" data-char="gojo">
+                        <h3>Gojo</h3>
+                        <p>Red / Blue / Purple / Infinite Void</p>
+                    </button>
+                    <button class="char-card" data-slot="p1" data-char="sukuna">
+                        <h3>Sukuna</h3>
+                        <p>Dismantle / Cleave / Fuga / Malevolent Shrine</p>
+                    </button>
+                </div>
+                <div class="skills-list">
+                    <strong>Current:</strong> <span id="p1Pick">Gojo</span>
+                </div>
+            </article>
+
+            <article class="panel select-panel">
+                <h2>Player 2</h2>
+                <div class="char-card-wrap">
+                    <button class="char-card" data-slot="p2" data-char="gojo">
+                        <h3>Gojo</h3>
+                        <p>Mirror match option available</p>
+                    </button>
+                    <button class="char-card active" data-slot="p2" data-char="sukuna">
+                        <h3>Sukuna</h3>
+                        <p>Default rival for this build</p>
+                    </button>
+                </div>
+                <div class="skills-list">
+                    <strong>Current:</strong> <span id="p2Pick">Sukuna</span>
+                </div>
+            </article>
+        </section>
+
+        <div class="bottom-actions">
+            <a class="btn-link btn-secondary" href="index.html">Back</a>
+            <button id="nextBtn" class="btn-play">Confirm and Select Map</button>
+        </div>
+    </main>
+
+    <script>
+        const selection = { p1: 'gojo', p2: 'sukuna' };
+        const p1Pick = document.getElementById('p1Pick');
+        const p2Pick = document.getElementById('p2Pick');
+
+        function titleCase(name) {
+            return name[0].toUpperCase() + name.slice(1);
+        }
+
+        document.querySelectorAll('.char-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const slot = card.dataset.slot;
+                const chosen = card.dataset.char;
+                selection[slot] = chosen;
+
+                document.querySelectorAll(`.char-card[data-slot="${slot}"]`).forEach(item => {
+                    item.classList.remove('active');
+                });
+                card.classList.add('active');
+
+                if (slot === 'p1') p1Pick.textContent = titleCase(chosen);
+                if (slot === 'p2') p2Pick.textContent = titleCase(chosen);
+            });
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            const payload = {
+                p1: selection.p1,
+                p2: selection.p2,
+                map: 'blank'
+            };
+            localStorage.setItem('battleKaisen.selection', JSON.stringify(payload));
+            window.location.href = 'map-select.html';
+        });
+    </script>
+</body>
+</html>

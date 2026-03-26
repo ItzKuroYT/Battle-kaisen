@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battle Kaisen - Fight</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="grid-overlay">
+    <main class="game-shell">
+        <section class="game-head">
+            <h1>Battle Kaisen: Arena</h1>
+            <div>
+                <button id="resetBtn" class="btn-options" style="font-size: 22px; padding: 8px 12px;">Rematch</button>
+                <button id="menuBtn" class="btn-secondary" style="font-size: 22px; padding: 8px 12px; margin-left: 8px;">Menu</button>
+            </div>
+        </section>
+
+        <section class="canvas-wrap">
+            <canvas id="gameCanvas" width="1100" height="560"></canvas>
+        </section>
+
+        <section class="hud-help">
+            <article class="panel">
+                <div id="roundInfo">Time: 150</div>
+                <div id="modeInfo" style="margin-top: 4px; color: var(--text-muted);">Mode: Same Device</div>
+                <div id="mapInfo" style="margin-top: 2px; color: var(--text-muted);">Map: Blank Arena</div>
+                <div style="margin-top: 6px;">P1 Move: A/D, Jump: W, Dodge: S (perfect), Block: F, Punch: Left Click</div>
+                <div id="p1Info" style="margin-top: 4px;">P1 skills loading...</div>
+            </article>
+            <article class="panel">
+                <div>P2 Move: Left/Right, Jump: Up, Dodge: Down (perfect), Block: Right Shift, Punch: Right Click</div>
+                <div id="p2Info" style="margin-top: 6px;">P2 skills loading...</div>
+                <div style="margin-top: 4px; color: var(--text-muted);">Multiplayer online layer can plug in later via network input sync.</div>
+            </article>
+        </section>
+
+        <section id="shopPanel" class="panel shop-panel">
+            <div class="shop-title-row">
+                <h2>Round Shop</h2>
+                <div id="shopPoints">P1 Points: 0 | P2 Points: 0</div>
+            </div>
+            <p id="shopStatus" class="shop-status">Win rounds to earn points, then buy power ups.</p>
+            <div class="shop-grid">
+                <button id="buyGlassesP1" class="btn-options" style="font-size: 20px; padding: 10px 12px;">P1 Buy Gojo's Glasses (3)</button>
+                <button id="buyGlassesP2" class="btn-options" style="font-size: 20px; padding: 10px 12px;">P2 Buy Gojo's Glasses (3)</button>
+                <button id="buyKamotokeP1" class="btn-play" style="font-size: 20px; padding: 10px 12px;">P1 Buy Kamotoke (4)</button>
+                <button id="buyKamotokeP2" class="btn-play" style="font-size: 20px; padding: 10px 12px;">P2 Buy Kamotoke (4)</button>
+            </div>
+            <div class="shop-hint">Kamotoke use: P1 = T, P2 = L (Sukuna only, one use per purchase). Glasses show enemy cooldowns and boost CE regen.</div>
+        </section>
+
+        <section id="matchOverlay" class="panel match-overlay" style="display: none;">
+            <h2 id="matchTitle">Matchmaking</h2>
+            <p id="matchStatus">Searching for another multiplayer player...</p>
+        </section>
+    </main>
+
+    <script src="game.js"></script>
+</body>
+</html>
